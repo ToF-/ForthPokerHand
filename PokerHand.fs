@@ -123,6 +123,20 @@ CREATE RANK-COUNTS 15 ALLOT
     COUNT-CARDS
     5CARDSORT ;
 
+: INIT-DISCARDED ( -- i,j )
+    0 0 ;
+
+: NEXT-DISCARDED ( i,j -- i,j+1|i+1,i+1+1 )
+    1+ DUP 7 = IF DROP 1+ DUP 1+ 7 = IF DROP 0 0 ELSE DUP 1+ THEN THEN ;
+
+: SUBSEQUENCE ( i,j -- [0,1,2,3,4,5,6] minus { i,j } )
+    >R >R 7 0 DO I LOOP
+    6 R> - ROLL DROP
+    5 R> 1 - - ROLL DROP ;
+
+: 5COPY ( a,b,c,d,e,srce,dest -- )
+    5 0 DO 2DUP 2>R -ROT + C@ SWAP C! 2R> 1+ LOOP ;
+    
 : TEST-CARDS
     ." CARD can create a constant card" CR
     1H S" 1H" STRING>CARD ?S
@@ -156,6 +170,42 @@ CREATE RANK-COUNTS 15 ALLOT
     DUP DUP RANK 8 ?S SUIT CLUBS ?S GROUPSIZE 2 ?S
     DUP DUP RANK 8 ?S SUIT HEARTS ?S GROUPSIZE 2 ?S ;
 
+: TEST-DISCARDED
+    ." DISCARDED cards index from 0 to 7 are initially 0 and 1" CR
+    INIT-DISCARDED
+    NEXT-DISCARDED 2DUP SWAP 0 ?S 1 ?S
+    ." NEXT-DISCARDED increases discarded cards index following 0,2 0,3 .. 1,2 1,3 .. until 5,6" CR
+    NEXT-DISCARDED 2DUP SWAP 0 ?S 2 ?S
+    NEXT-DISCARDED 2DUP SWAP 0 ?S 3 ?S
+    NEXT-DISCARDED 2DUP SWAP 0 ?S 4 ?S
+    NEXT-DISCARDED 2DUP SWAP 0 ?S 5 ?S
+    NEXT-DISCARDED 2DUP SWAP 0 ?S 6 ?S
+    NEXT-DISCARDED 2DUP SWAP 1 ?S 2 ?S
+    ." NEXT-DISCARDED increases discarded cards index until 5,6 then makes it 0,0 for flag" CR
+    13 0 DO NEXT-DISCARDED LOOP
+    NEXT-DISCARDED 2DUP SWAP 5 ?S 6 ?S
+    NEXT-DISCARDED 0 ?S 0 ?S
+;
+
+: TEST-SUBSEQUENCE
+    ." SUBSEQUENCE count numbers from 0 to 6 except the two discarded ones" CR
+    0 6 SUBSEQUENCE 5 ?S 4 ?S 3 ?S 2 ?S 1 ?S
+    1 2 SUBSEQUENCE 6 ?S 5 ?S 4 ?S 3 ?S 0 ?S
+    5 6 SUBSEQUENCE 4 ?S 3 ?S 2 ?S 1 ?S 0 ?S
+;
+
+CREATE TEMP 5 ALLOT
+: TEST-5COPY
+    ." 5C@ copies 5 bytes from address + indexes" CR
+    0 3 SUBSEQUENCE
+    S" ABCDEFG" DROP TEMP 5COPY
+    TEMP C@ [CHAR] G ?S
+    TEMP 1 + C@ [CHAR] F ?S
+    TEMP 2 + C@ [CHAR] E ?S
+    TEMP 3 + C@ [CHAR] C ?S
+    TEMP 4 + C@ [CHAR] B ?S
+;
+
 : TESTS
     TEST-CHAR>RANK
     TEST-CHAR>SUIT
@@ -164,7 +214,10 @@ CREATE RANK-COUNTS 15 ALLOT
     TEST-CARDS
     TEST-GROUPSIZE
     TEST-SORTCARDS
+    TEST-DISCARDED
+    TEST-SUBSEQUENCE
+    TEST-5COPY
 ;
 
-TESTS BYE
-
+TESTS
+BYE
