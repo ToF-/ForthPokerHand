@@ -88,8 +88,15 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 6C CARD 7C CARD 8C CARD 9C 
 
 CREATE RANK-COUNTS 15 ALLOT
 
+: CARDS>HAND ( a,b,c,d,e -- h )
+    4 0 DO 8 LSHIFT OR LOOP ;
+
+: HAND>CARDS ( h -- a,b,c,d,e )
+    4 0 DO DUP 255 AND SWAP 8 RSHIFT LOOP ;
+
 : 5DUP ( a,b,c,d,e -- a,b,c,d,e,a,b,c,d,e )
-    5 0 DO 4 PICK LOOP ;
+    CARDS>HAND DUP >R
+    HAND>CARDS R> HAND>CARDS ;
 
 : INCREASE-RANK-COUNT ( card -- )
     RANK RANK-COUNTS + DUP C@ 1+ SWAP C! ;
@@ -136,7 +143,7 @@ CREATE RANK-COUNTS 15 ALLOT
 
 : 5COPY ( a,b,c,d,e,srce,dest -- )
     5 0 DO 2DUP 2>R -ROT + C@ SWAP C! 2R> 1+ LOOP ;
-    
+
 : TEST-CARDS
     ." CARD can create a constant card" CR
     1H S" 1H" STRING>CARD ?S
@@ -144,6 +151,14 @@ CREATE RANK-COUNTS 15 ALLOT
     QD S" QD" STRING>CARD ?S
     KH RANK KING ?S
     KH SUIT HEARTS ?S
+;
+
+: TEST-HAND-CARDS
+    ." CARDS>HAND converts cards to a single cell hand" CR
+    KH 2C KD 3S 3D CARDS>HAND
+    ." HAND>CARDS converts a single cell hand into 5 cards" CR
+    HAND>CARDS
+    3D ?S 3S ?S KD ?S 2C ?S KH ?S
 ;
 
 : TEST-GROUPSIZE
@@ -212,6 +227,7 @@ CREATE TEMP 5 ALLOT
     TEST-RANKSUIT>CARD
     TEST-STRING>CARD
     TEST-CARDS
+    TEST-HAND-CARDS
     TEST-GROUPSIZE
     TEST-SORTCARDS
     TEST-DISCARDED
