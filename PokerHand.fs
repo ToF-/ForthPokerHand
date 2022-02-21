@@ -145,7 +145,18 @@ decimal
     repeat
     nip cell+ @ ;
 
+: flush? ( a,b,c,d,e -- f )
+    >R >R >R >R 
+    suit r> suit r> suit r> suit r> suit 
+    -1 4 0 do if over = else drop 0 then loop
+    nip ;
     
+: straight? ( a,b,d,d,e -- f )
+    >R >R >R >R 
+    rank R> rank r> rank r> rank r> rank
+    over - >r over - >r over - >r over - >r drop
+    r> r> + r> + r> + -4 = ;
+
 : TEST-CHAR>RANK
     ." CHAR>RANK converts char 123456789TJQKA to rank value" CR
     [CHAR] 1 CHAR>RANK 1 ?S
@@ -254,6 +265,22 @@ decimal
     3H AD AH AS AH sort-cards find-group-category fourofakind ?S
 ;
 
+: test-flush?
+    ." flush? find if all cards have same suit" cr
+    3H 5H QH AS 7S flush? 0 ?S
+    3H 5H QH AH 7H flush? -1 ?S
+    3S 5H QH AH 7H flush? 0 ?S
+    3H 5S QH AH 7H flush? 0 ?S
+; 
+
+: test-straight?
+    ." straight? find if all cards are in sequence" cr
+    3H 5H QH AS 7S sort-cards straight? 0 ?S
+    3H 5H 4H 6S 7S sort-cards straight? -1 ?S
+;
+
+
+
 : TESTS
     TEST-CHAR>RANK
     TEST-CHAR>SUIT
@@ -266,6 +293,8 @@ decimal
     TEST-DISCARDED
     TEST-SUBSEQUENCE
     test-find-group-category
+    test-flush?
+    test-straight?
 ;
 
 TESTS
