@@ -118,44 +118,65 @@ CREATE RANK-COUNTS 15 ALLOT
 10 CONSTANT  FOUROFAKIND
 12 CONSTANT  STRAIGHTFLUSH
 
-2 base !
-CREATE groupcategories
-0000000000 , highcard ,
-0101000000 , onepair ,
-0101010100 , twopair ,
-1010100000 , threeofakind ,
-1010100101 , fullhouse ,
-1111111100 , fourofakind ,
-decimal
+2 BASE !
+create GROUPCATEGORIES
+0000000000 , HIGHCARD ,
+0101000000 , ONEPAIR ,
+0101010100 , TWOPAIR ,
+1010100000 , THREEOFAKIND ,
+1010100101 , FULLHOUSE ,
+1111111100 , FOUROFAKIND ,
+DECIMAL
 
-: 5reverse ( a,b,c,d,e -- e,d,c,b,a )
-    -rot swap         \ a,b,e,d,c
-    >r 2swap swap     \ e,d,b,a
-    r> -rot ;         \ e,d,c,b,a 
+: 5REVERSE ( a,b,c,d,e -- e,d,c,b,a )
+    -ROT SWAP         \ a,b,e,d,c
+    >R 2SWAP SWAP     \ e,d,b,a
+    R> -ROT ;         \ e,d,c,b,a
 
-: group-pattern ( a,b,c,d,e -- gp )
-    5reverse 
+: GROUP-PATTERN ( a,b,c,d,e -- gp )
+    5REVERSE
     0 5 0 DO 2 LSHIFT SWAP GROUPSIZE 1- OR LOOP ;
 
-: find-group-category ( a,b,c,d,e -- gc )
-    group-pattern groupcategories 
-    begin 
-        over over @ <> while
-        cell+ cell+
-    repeat
-    nip cell+ @ ;
+: FIND-GROUP-CATEGORY ( a,b,c,d,e -- gc )
+    GROUP-PATTERN GROUPCATEGORIES
+    BEGIN
+        OVER OVER @ <> WHILE
+        CELL+ CELL+
+    REPEAT
+    NIP CELL+ @ ;
 
-: flush? ( a,b,c,d,e -- f )
-    >R >R >R >R 
-    suit r> suit r> suit r> suit r> suit 
-    -1 4 0 do if over = else drop 0 then loop
-    nip ;
-    
-: straight? ( a,b,d,d,e -- f )
-    >R >R >R >R 
-    rank R> rank r> rank r> rank r> rank
-    over - >r over - >r over - >r over - >r drop
-    r> r> + r> + r> + -4 = ;
+: HAND>MAP ( h,xt -- v1,v2,v3,v4,v5 )
+    SWAP 5 0 DO
+        OVER OVER 255 AND SWAP EXECUTE
+        -ROT 8 RSHIFT LOOP 2DROP ;
+
+: SUITS ( h -- s1,s2,s3,s4,s5 )
+    ['] SUIT HAND>MAP ;
+
+: RANKS ( h -- r1,r2,r3,r4,r5 )
+    ['] RANK HAND>MAP ;
+
+: FLUSH? ( h -- f )
+    SUITS              \ a,b,c,d,e
+    OVER = 2>R         \ a,b,c,    [d,e=d]
+    OVER = 2R>         \ a,b,c=b,d,e=d
+    SWAP -ROT          \ a,b,d,c=b,e=d
+    AND -ROT           \ a,c=b&e=d,b,d
+    OVER =             \ a,c=b&e=d,b,d=b
+    ROT AND            \ a,b,d=b&c=b&e=d
+    -ROT = AND ;       \ d=b&c=b&e=d&a=b
+
+: SUCC? ( a,b -- b=a+1 )
+    SWAP 1+ = ;
+
+: STRAIGHT? ( h -- f )
+    RANKS              \ a,b,c,d,e
+    OVER SUCC?         \ a,b,c,d,R
+    -ROT OVER SUCC?    \ a,b,R,c,R'
+    ROT AND -ROT       \ a,RR',b,c
+    OVER SUCC?         \ a,RR',b,R''
+    ROT AND -ROT       \ RR'R'',a,b
+    SWAP SUCC? AND ;   \ R
 
 : TEST-CHAR>RANK
     ." CHAR>RANK converts char 123456789TJQKA to rank value" CR
@@ -255,31 +276,41 @@ decimal
     5 6 SUBSEQUENCE 4 ?S 3 ?S 2 ?S 1 ?S 0 ?S
 ;
 
-: test-find-group-category
-    ." find-group-category find the group category of a sorted hand" cr
-    3H 5H QH AS 7S sort-cards find-group-category highcard ?S 
-    3H 3D AH QS 7H sort-cards find-group-category onepair ?S
-    3H 3D AH QS AH sort-cards find-group-category twopair ?S
-    3H 6D AH AS AH sort-cards find-group-category threeofakind ?S
-    3H 3D AH AS AH sort-cards find-group-category fullhouse ?S
-    3H AD AH AS AH sort-cards find-group-category fourofakind ?S
+: TEST-FIND-GROUP-CATEGORY
+    ." FIND-GROUP-CATEGORY find the group category of a sorted hand" cr
+    3H 5H QH AS 7S SORT-CARDS FIND-GROUP-CATEGORY HIGHCARD ?S
+    3H 3D AH QS 7H SORT-CARDS FIND-GROUP-CATEGORY ONEPAIR ?S
+    3H 3D AH QS AH SORT-CARDS FIND-GROUP-CATEGORY TWOPAIR ?S
+    3H 6D AH AS AH SORT-CARDS FIND-GROUP-CATEGORY THREEOFAKIND ?S
+    3H 3D AH AS AH SORT-CARDS FIND-GROUP-CATEGORY FULLHOUSE ?S
+    3H AD AH AS AH SORT-CARDS FIND-GROUP-CATEGORY FOUROFAKIND ?S
 ;
 
-: test-flush?
-    ." flush? find if all cards have same suit" cr
-    3H 5H QH AS 7S flush? 0 ?S
-    3H 5H QH AH 7H flush? -1 ?S
-    3S 5H QH AH 7H flush? 0 ?S
-    3H 5S QH AH 7H flush? 0 ?S
-; 
-
-: test-straight?
-    ." straight? find if all cards are in sequence" cr
-    3H 5H QH AS 7S sort-cards straight? 0 ?S
-    3H 5H 4H 6S 7S sort-cards straight? -1 ?S
+: TEST-FLUSH?
+    ." FLUSH? find if all cards have same suit" cr
+    3H 5H QH AS 7S 5 CARDS>HAND FLUSH? 0 ?S
+    3H 5H QH AH 7H 5 CARDS>HAND FLUSH? -1 ?S
+    3S 5H QH AH 7H 5 CARDS>HAND FLUSH? 0 ?S
+    3H 5S QH AH 7H 5 CARDS>HAND FLUSH? 0 ?S
 ;
 
+: TEST-STRAIGHT?
+    ." STRAIGHT? find if all cards are in sequence" CR
+    3h 5h qh as 7s SORT-CARDS 5 CARDS>HAND STRAIGHT? 0 ?s
+    3h 5h 4h 6s 7s SORT-CARDS 5 CARDS>HAND STRAIGHT? -1 ?s
+;
 
+: TEST-SUITS
+    ." SUITS pushes the suits from a hand" CR
+    3H 5C 4S AD 7H 5 CARDS>HAND SUITS
+    HEARTS ?S DIAMONDS ?S SPADES ?S CLUBS ?S HEARTS ?S
+;
+
+: TEST-RANKS
+    ." RANKS pushes the ranks from a hand" CR
+    3H 5C 4S AD 7H 5 CARDS>HAND RANKS
+    7 ?S ACE ?S 4 ?S 5 ?S 3 ?S
+;
 
 : TESTS
     TEST-CHAR>RANK
@@ -292,9 +323,11 @@ decimal
     TEST-SORTCARDS
     TEST-DISCARDED
     TEST-SUBSEQUENCE
-    test-find-group-category
-    test-flush?
-    test-straight?
+    TEST-FIND-GROUP-CATEGORY
+    TEST-FLUSH?
+    TEST-STRAIGHT?
+    TEST-SUITS
+    TEST-RANKS
 ;
 
 TESTS
