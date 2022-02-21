@@ -41,39 +41,6 @@ INCLUDE ffl/tst.fs
     SWAP 1+ C@ CHAR>SUIT
     RANKSUIT>CARD ;
 
-: TEST-CHAR>RANK
-    ." CHAR>RANK converts char 123456789TJQKA to rank value" CR
-    [CHAR] 1 CHAR>RANK 1 ?S
-    [CHAR] 7 CHAR>RANK 7 ?S
-    [CHAR] T CHAR>RANK TEN ?S
-    [CHAR] J CHAR>RANK JACK ?S
-    [CHAR] Q CHAR>RANK QUEEN ?S
-    [CHAR] K CHAR>RANK KING ?S
-    [CHAR] A CHAR>RANK ACE ?S
-;
-
-: TEST-CHAR>SUIT
-    ." CHAR>SUIT converts char HSDC to suit value" CR
-    [CHAR] H CHAR>SUIT HEARTS ?S
-    [CHAR] S CHAR>SUIT SPADES ?S
-    [CHAR] D CHAR>SUIT DIAMONDS ?S
-    [CHAR] C CHAR>SUIT CLUBS ?S
-;
-
-: TEST-RANKSUIT>CARD
-    ." RANKSUIT>CARD converts a rank and a suit into a card" CR
-    13 3 RANKSUIT>CARD
-    DUP RANK KING ?S
-        SUIT CLUBS ?S
-;
-
-: TEST-STRING>CARD
-    ." STRING>CARD converts a string into a card" CR
-    S" KC" STRING>CARD
-    DUP RANK KING ?S
-        SUIT  CLUBS ?S
-;
-
 : CARD ( "card" -- creates a constant named <card> )
     CREATE LATEST NAME>STRING STRING>CARD , DOES> @ ;
 
@@ -88,15 +55,15 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 6C CARD 7C CARD 8C CARD 9C 
 
 CREATE RANK-COUNTS 15 ALLOT
 
-: CARDS>HAND ( a,b,c,d,e -- h )
-    4 0 DO 8 LSHIFT OR LOOP ;
+: CARDS>HAND ( a,b,c,d,e,n -- h )
+    1- 0 DO 8 LSHIFT OR LOOP ;
 
-: HAND>CARDS ( h -- a,b,c,d,e )
-    4 0 DO DUP 255 AND SWAP 8 RSHIFT LOOP ;
+: HAND>CARDS ( h,n -- a,b,c,d,e )
+    1- 0 DO DUP 255 AND SWAP 8 RSHIFT LOOP ;
 
 : 5DUP ( a,b,c,d,e -- a,b,c,d,e,a,b,c,d,e )
-    CARDS>HAND DUP >R
-    HAND>CARDS R> HAND>CARDS ;
+    5 CARDS>HAND DUP >R
+    5 HAND>CARDS R> 5 HAND>CARDS ;
 
 : INCREASE-RANK-COUNT ( card -- )
     RANK RANK-COUNTS + DUP C@ 1+ SWAP C! ;
@@ -141,8 +108,76 @@ CREATE RANK-COUNTS 15 ALLOT
     6 R> - ROLL DROP
     5 R> 1 - - ROLL DROP ;
 
-: 5COPY ( a,b,c,d,e,srce,dest -- )
-    5 0 DO 2DUP 2>R -ROT + C@ SWAP C! 2R> 1+ LOOP ;
+0 CONSTANT  HIGHCARD
+1 CONSTANT  ONEPAIR
+2 CONSTANT  TWOPAIR
+3 CONSTANT  THREEOFAKIND
+4 CONSTANT  STRAIGHT
+8 CONSTANT  FLUSH
+9 CONSTANT  FULLHOUSE
+10 CONSTANT  FOUROFAKIND
+12 CONSTANT  STRAIGHTFLUSH
+
+2 base !
+CREATE groupcategories
+0000000000 , highcard ,
+0101000000 , onepair ,
+0101010100 , twopair ,
+1010100000 , threeofakind ,
+1010100101 , fullhouse ,
+1111111100 , fourofakind ,
+decimal
+
+: 5reverse ( a,b,c,d,e -- e,d,c,b,a )
+    -rot swap         \ a,b,e,d,c
+    >r 2swap swap     \ e,d,b,a
+    r> -rot ;         \ e,d,c,b,a 
+
+: group-pattern ( a,b,c,d,e -- gp )
+    5reverse 
+    0 5 0 DO 2 LSHIFT SWAP GROUPSIZE 1- OR LOOP ;
+
+: find-group-category ( a,b,c,d,e -- gc )
+    group-pattern groupcategories 
+    begin 
+        over over @ <> while
+        cell+ cell+
+    repeat
+    nip cell+ @ ;
+
+    
+: TEST-CHAR>RANK
+    ." CHAR>RANK converts char 123456789TJQKA to rank value" CR
+    [CHAR] 1 CHAR>RANK 1 ?S
+    [CHAR] 7 CHAR>RANK 7 ?S
+    [CHAR] T CHAR>RANK TEN ?S
+    [CHAR] J CHAR>RANK JACK ?S
+    [CHAR] Q CHAR>RANK QUEEN ?S
+    [CHAR] K CHAR>RANK KING ?S
+    [CHAR] A CHAR>RANK ACE ?S
+;
+
+: TEST-CHAR>SUIT
+    ." CHAR>SUIT converts char HSDC to suit value" CR
+    [CHAR] H CHAR>SUIT HEARTS ?S
+    [CHAR] S CHAR>SUIT SPADES ?S
+    [CHAR] D CHAR>SUIT DIAMONDS ?S
+    [CHAR] C CHAR>SUIT CLUBS ?S
+;
+
+: TEST-RANKSUIT>CARD
+    ." RANKSUIT>CARD converts a rank and a suit int o a card" CR
+    13 3 RANKSUIT>CARD
+    DUP RANK KING ?S
+        SUIT CLUBS ?S
+;
+
+: TEST-STRING>CARD
+    ." STRING>CARD converts a string into a card" CR
+    S" KC" STRING>CARD
+    DUP RANK KING ?S
+        SUIT  CLUBS ?S
+;
 
 : TEST-CARDS
     ." CARD can create a constant card" CR
@@ -155,9 +190,9 @@ CREATE RANK-COUNTS 15 ALLOT
 
 : TEST-HAND-CARDS
     ." CARDS>HAND converts cards to a single cell hand" CR
-    KH 2C KD 3S 3D CARDS>HAND
+    KH 2C KD 3S 3D 5 CARDS>HAND
     ." HAND>CARDS converts a single cell hand into 5 cards" CR
-    HAND>CARDS
+    5 HAND>CARDS
     3D ?S 3S ?S KD ?S 2C ?S KH ?S
 ;
 
@@ -209,16 +244,14 @@ CREATE RANK-COUNTS 15 ALLOT
     5 6 SUBSEQUENCE 4 ?S 3 ?S 2 ?S 1 ?S 0 ?S
 ;
 
-CREATE TEMP 5 ALLOT
-: TEST-5COPY
-    ." 5C@ copies 5 bytes from address + indexes" CR
-    0 3 SUBSEQUENCE
-    S" ABCDEFG" DROP TEMP 5COPY
-    TEMP C@ [CHAR] G ?S
-    TEMP 1 + C@ [CHAR] F ?S
-    TEMP 2 + C@ [CHAR] E ?S
-    TEMP 3 + C@ [CHAR] C ?S
-    TEMP 4 + C@ [CHAR] B ?S
+: test-find-group-category
+    ." find-group-category find the group category of a sorted hand" cr
+    3H 5H QH AS 7S sort-cards find-group-category highcard ?S 
+    3H 3D AH QS 7H sort-cards find-group-category onepair ?S
+    3H 3D AH QS AH sort-cards find-group-category twopair ?S
+    3H 6D AH AS AH sort-cards find-group-category threeofakind ?S
+    3H 3D AH AS AH sort-cards find-group-category fullhouse ?S
+    3H AD AH AS AH sort-cards find-group-category fourofakind ?S
 ;
 
 : TESTS
@@ -232,7 +265,7 @@ CREATE TEMP 5 ALLOT
     TEST-SORTCARDS
     TEST-DISCARDED
     TEST-SUBSEQUENCE
-    TEST-5COPY
+    test-find-group-category
 ;
 
 TESTS
