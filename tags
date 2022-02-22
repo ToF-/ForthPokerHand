@@ -1,0 +1,143 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+.CARD	scratch.fs	/^: .CARD ( card -- )$/;"	d
+.GROUPSIZE	scratch.fs	/^: .GROUPSIZE ( n -- )$/;"	d
+.GSCARD	scratch.fs	/^: .GSCARD ( card -- )$/;"	d
+.HAND	scratch.fs	/^: .HAND$/;"	d
+.RANK	scratch.fs	/^: .RANK ( r -- )$/;"	d
+.SUIT	scratch.fs	/^: .SUIT ( s -- )$/;"	d
+1C	scratch.fs	/^1 CLUBS CARD CONSTANT 1C 2 CLUBS CARD CONSTANT 2C 3 CLUBS CARD CONSTANT 3C 4 CLUBS CARD CONSTANT 4C 5 CLUBS CARD CONSTANT 5C 6 CLUBS CARD CONSTANT 6C 7 CLUBS CARD CONSTANT 7C 8 CLUBS CARD CONSTANT 8C 9 CLUBS CARD CONSTANT 9C TEN CLUBS CARD CONSTANT TC JACK CLUBS CARD CONSTANT JC QUEEN CLUBS CARD CONSTANT QC KING CLUBS CARD CONSTANT KC ACE CLUBS CARD CONSTANT AC$/;"	c
+1D	scratch.fs	/^1 DIAMONDS CARD CONSTANT 1D 2 DIAMONDS CARD CONSTANT 2D 3 DIAMONDS CARD CONSTANT 3D 4 DIAMONDS CARD CONSTANT 4D 5 DIAMONDS CARD CONSTANT 5D 6 DIAMONDS CARD CONSTANT 6D 7 DIAMONDS CARD CONSTANT 7D 8 DIAMONDS CARD CONSTANT 8D 9 DIAMONDS CARD CONSTANT 9D TEN DIAMONDS CARD CONSTANT TD JACK DIAMONDS CARD CONSTANT JD QUEEN DIAMONDS CARD CONSTANT QD KING DIAMONDS CARD CONSTANT KD ACE DIAMONDS CARD CONSTANT AD$/;"	c
+1H	scratch.fs	/^1 HEARTS CARD CONSTANT 1H 2 HEARTS CARD CONSTANT 2H 3 HEARTS CARD CONSTANT 3H 4 HEARTS CARD CONSTANT 4H 5 HEARTS CARD CONSTANT 5H 6 HEARTS CARD CONSTANT 6H 7 HEARTS CARD CONSTANT 7H 8 HEARTS CARD CONSTANT 8H 9 HEARTS CARD CONSTANT 9H TEN HEARTS CARD CONSTANT TH JACK HEARTS CARD CONSTANT JH QUEEN HEARTS CARD CONSTANT QH KING HEARTS CARD CONSTANT KH ACE HEARTS CARD CONSTANT AH$/;"	c
+1S	scratch.fs	/^1 SPADES CARD CONSTANT 1S 2 SPADES CARD CONSTANT 2S 3 SPADES CARD CONSTANT 3S 4 SPADES CARD CONSTANT 4S 5 SPADES CARD CONSTANT 5S 6 SPADES CARD CONSTANT 6S 7 SPADES CARD CONSTANT 7S 8 SPADES CARD CONSTANT 8S 9 SPADES CARD CONSTANT 9S TEN SPADES CARD CONSTANT TS JACK SPADES CARD CONSTANT JS QUEEN SPADES CARD CONSTANT QS KING SPADES CARD CONSTANT KS ACE SPADES CARD CONSTANT AS$/;"	c
+2CARDSORT	PokerHand.fs	/^: 2CARDSORT ( card,card -- card,card )$/;"	d
+2SORT	scratch.fs	/^: 2SORT ( card,card -- card,card )$/;"	d
+3CARDSORT	PokerHand.fs	/^: 3CARDSORT ( card,card,card -- card,card,card )$/;"	d
+3SORT	scratch.fs	/^: 3SORT ( card,card,card -- card,card,card )$/;"	d
+4CARDSORT	PokerHand.fs	/^: 4CARDSORT ( card,card,card,card -- card,card,card,card )$/;"	d
+4SORT	scratch.fs	/^: 4SORT ( card,card,card,card -- card,card,card,card )$/;"	d
+5CARDSORT	PokerHand.fs	/^: 5CARDSORT ( a,d,b,c,e -- e,d,c,b,a )$/;"	d
+5DUP	PokerHand.fs	/^: 5DUP ( a,b,c,d,e -- a,b,c,d,e,a,b,c,d,e )$/;"	d
+5DUP	scratch.fs	/^: 5DUP ( a,b,c,d,e -- a,b,c,d,e,a,b,c,d,e )$/;"	d
+5REVERSE	PokerHand.fs	/^: 5REVERSE ( a,b,c,d,e -- e,d,c,b,a )$/;"	d
+5REVERSE	scratch.fs	/^: 5REVERSE ( a,b,c,d,e -- e,b,c,d,a )$/;"	d
+5SORT	scratch.fs	/^: 5SORT ( a,d,b,c,e -- e,d,c,b,a )$/;"	d
+7CARDS!	scratch.fs	/^: 7CARDS! ( a,b,c,d,e,f,g,addr -- )$/;"	d
+7CARDS@	scratch.fs	/^: 7CARDS@ ( addr -- a,b,c,d,e,f,g )$/;"	d
+<GROUPCOUNT!	scratch.fs	/^: <GROUPCOUNT! ( card,gc -- card' )$/;"	d
+<GROUPCOUNTS!	scratch.fs	/^: <GROUPCOUNTS! ( a,b,c,d,e -- )$/;"	d
+ACE	PokerHand.fs	/^14 CONSTANT ACE$/;"	c
+ACE	scratch.fs	/^14 CONSTANT ACE$/;"	c
+ALLCLUBS	PokerHand.fs	/^  0000001100000011000000110000001100000011 CONSTANT ALLCLUBS$/;"	c
+ALLDIAMONDS	PokerHand.fs	/^  0000001000000010000000100000001000000010 CONSTANT ALLDIAMONDS$/;"	c
+ALLDISTINCTRANKS?	PokerHand.fs	/^: ALLDISTINCTRANKS? ( h -- f )$/;"	d
+ALLHEARTS	PokerHand.fs	/^  0000000000000000000000000000000000000000 CONSTANT ALLHEARTS$/;"	c
+ALLSPADES	PokerHand.fs	/^  0000000100000001000000010000000100000001 CONSTANT ALLSPADES$/;"	c
+CARD	PokerHand.fs	/^: CARD ( "card" -- creates a constant named <card> )$/;"	d
+CARD	scratch.fs	/^: CARD ( r,s -- card )$/;"	d
+CARDCOMPARE	PokerHand.fs	/^: CARDCOMPARE ( card,card -- -x|0|+x )$/;"	d
+CARDCOMPARE	scratch.fs	/^: CARDCOMPARE ( card,card -- -x|0|+x )$/;"	d
+CARDCOMPAREMASK	PokerHand.fs	/^2 BASE ! 11111100 CONSTANT CARDCOMPAREMASK DECIMAL$/;"	c
+CARDCOMPAREMASK	scratch.fs	/^11111100 CONSTANT CARDCOMPAREMASK$/;"	c
+CARDS>HAND	PokerHand.fs	/^: CARDS>HAND ( a,b,c,d,e,n -- h )$/;"	d
+CATEGORY	PokerHand.fs	/^: CATEGORY ( h -- cat )$/;"	d
+CHAR>RANK	PokerHand.fs	/^: CHAR>RANK ( c -- r )$/;"	d
+CHAR>SUIT	PokerHand.fs	/^: CHAR>SUIT ( c -- s )$/;"	d
+CLUBS	PokerHand.fs	/^3 CONSTANT CLUBS$/;"	c
+CLUBS	scratch.fs	/^3 CONSTANT CLUBS$/;"	c
+COUNT-CARDS	PokerHand.fs	/^: COUNT-CARDS ( c1,c2,c3,c4,c5 -- c1,c2,c3,c4,c5 with group size value )$/;"	d
+COUNTGROUPS	scratch.fs	/^: COUNTGROUPS ( a,b,c,d,e -- )$/;"	d
+CURRENTCARDS	scratch.fs	/^CREATE CURRENTCARDS 7 ALLOT$/;"	a
+DIAMONDS	PokerHand.fs	/^2 CONSTANT DIAMONDS$/;"	c
+DIAMONDS	scratch.fs	/^2 CONSTANT DIAMONDS$/;"	c
+DISCARDS	scratch.fs	/^: DISCARDS ( -- 0,1,0,2,...1,2,1,3..6,7 )$/;"	d
+DISCARDSINDICES	scratch.fs	/^CREATE DISCARDSINDICES DISCARDS$/;"	a
+ERASEGROUPCOUNT	scratch.fs	/^: ERASEGROUPCOUNT$/;"	d
+FIND-GROUP-CATEGORY	PokerHand.fs	/^: FIND-GROUP-CATEGORY ( h -- gc )$/;"	d
+FLUSH	PokerHand.fs	/^8 CONSTANT  FLUSH$/;"	c
+FLUSH?	PokerHand.fs	/^: FLUSH? ( h -- f )$/;"	d
+FOUROFAKIND	PokerHand.fs	/^10 CONSTANT  FOUROFAKIND$/;"	c
+FULLHOUSE	PokerHand.fs	/^9 CONSTANT  FULLHOUSE$/;"	c
+GROUPCATEGORIES	PokerHand.fs	/^create GROUPCATEGORIES$/;"	a
+GROUPCOUNT	scratch.fs	/^CREATE GROUPCOUNT 15 ALLOT$/;"	a
+GROUPCOUNT++	scratch.fs	/^: GROUPCOUNT++ ( n -- )$/;"	d
+GROUPCOUNT@	scratch.fs	/^: GROUPCOUNT@ ( n -- c )$/;"	d
+GROUPCOUNTMASK	scratch.fs	/^11000000 CONSTANT GROUPCOUNTMASK$/;"	c
+GROUPSIZE	PokerHand.fs	/^: GROUPSIZE ( card -- n )$/;"	d
+GROUPSIZE	scratch.fs	/^: GROUPSIZE ( card -- n )$/;"	d
+GROUPSMASK	PokerHand.fs	/^  1100000011000000110000001100000011000000 CONSTANT GROUPSMASK$/;"	c
+HAND	scratch.fs	/^: HAND ( a,e,c,d,b -- e,c,d,b,a sorted by group size then rank )$/;"	d
+HAND!	scratch.fs	/^: HAND! ( a,b,c,d,e,addr -- )$/;"	d
+HAND>CARDS	PokerHand.fs	/^: HAND>CARDS ( h,n -- a,b,c,d,e )$/;"	d
+HAND>MAP	PokerHand.fs	/^: HAND>MAP ( h,xt -- v1,v2,v3,v4,v5 )$/;"	d
+HAND@	scratch.fs	/^: HAND@ ( addr -- a,b,c,d,e )$/;"	d
+HEARTS	PokerHand.fs	/^0 CONSTANT HEARTS$/;"	c
+HEARTS	scratch.fs	/^0 CONSTANT HEARTS$/;"	c
+HIGHCARD	PokerHand.fs	/^0 CONSTANT  HIGHCARD$/;"	c
+INCREASE-RANK-COUNT	PokerHand.fs	/^: INCREASE-RANK-COUNT ( card -- )$/;"	d
+INIT-DISCARDED	PokerHand.fs	/^: INIT-DISCARDED ( -- i,j )$/;"	d
+JACK	PokerHand.fs	/^11 CONSTANT JACK$/;"	c
+JACK	scratch.fs	/^11 CONSTANT JACK$/;"	c
+KING	PokerHand.fs	/^13 CONSTANT KING$/;"	c
+KING	scratch.fs	/^13 CONSTANT KING$/;"	c
+LATEST	PokerHand.fs	/^    CREATE LATEST NAME>STRING STRING>CARD , DOES> @ ;$/;"	a
+MYHAND	scratch.fs	/^CREATE MYHAND 5 ALLOT$/;"	a
+NEXT-DISCARDED	PokerHand.fs	/^: NEXT-DISCARDED ( i,j -- i,j+1|i+1,i+1+1 )$/;"	d
+ONEPAIR	PokerHand.fs	/^1 CONSTANT  ONEPAIR$/;"	c
+POSSIBLEHAND	scratch.fs	/^: POSSIBLEHAND ( addr,n -- a,b,c,d,e )$/;"	d
+POSSIBLEHANDS	scratch.fs	/^CREATE POSSIBLEHANDS 5 21 * ALLOT$/;"	a
+QUEEN	PokerHand.fs	/^12 CONSTANT QUEEN$/;"	c
+QUEEN	scratch.fs	/^12 CONSTANT QUEEN$/;"	c
+RANK	PokerHand.fs	/^: RANK ( card -- rank )$/;"	d
+RANK	scratch.fs	/^: RANK ( card -- rank )$/;"	d
+RANK-COUNTS	PokerHand.fs	/^CREATE RANK-COUNTS 15 ALLOT$/;"	a
+RANK2345ACE	PokerHand.fs	/^  0000100000001100000100000001010000111000 CONSTANT RANK2345ACE$/;"	c
+RANKMASK	scratch.fs	/^00111100 CONSTANT RANKMASK$/;"	c
+RANKS	scratch.fs	/^CREATE RANKS$/;"	a
+RANKSEQUENCE?	PokerHand.fs	/^: RANKSEQUENCE? ( rp -- f )$/;"	d
+RANKSMASK	PokerHand.fs	/^  0011110000111100001111000011110000111100 CONSTANT RANKSMASK$/;"	c
+RANKSUIT>CARD	PokerHand.fs	/^: RANKSUIT>CARD ( r,s -- card )$/;"	d
+RANKSUITMASK	scratch.fs	/^00111111 CONSTANT RANKSUITMASK$/;"	c
+REMOVE2	scratch.fs	/^: REMOVE2 ( a,b,c,d,e,f,g,x,y -- a,b,c,d,e )$/;"	d
+SORT-CARDS	PokerHand.fs	/^: SORT-CARDS ( 5 cards -- 5 sorted cards )$/;"	d
+SPADES	PokerHand.fs	/^1 CONSTANT SPADES$/;"	c
+SPADES	scratch.fs	/^1 CONSTANT SPADES$/;"	c
+STRAIGHT	PokerHand.fs	/^4 CONSTANT  STRAIGHT$/;"	c
+STRAIGHT?	PokerHand.fs	/^: STRAIGHT? ( h -- f )$/;"	d
+STRAIGHTFLUSH	PokerHand.fs	/^12 CONSTANT  STRAIGHTFLUSH$/;"	c
+STRING>CARD	PokerHand.fs	/^: STRING>CARD ( addr,u -- card )$/;"	d
+SUBSEQUENCE	PokerHand.fs	/^: SUBSEQUENCE ( i,j -- [0,1,2,3,4,5,6] minus { i,j } )$/;"	d
+SUCC?	PokerHand.fs	/^: SUCC? ( a,b -- b=a+1 )$/;"	d
+SUIT	PokerHand.fs	/^: SUIT ( card -- suit )$/;"	d
+SUIT	scratch.fs	/^: SUIT ( card -- suit )$/;"	d
+SUITMASK	scratch.fs	/^00000011 CONSTANT SUITMASK$/;"	c
+SUITS	scratch.fs	/^CREATE SUITS$/;"	a
+SUITSMASK	PokerHand.fs	/^  0000001100000011000000110000001100000011 CONSTANT SUITSMASK$/;"	c
+TEN	PokerHand.fs	/^10 CONSTANT TEN$/;"	c
+TEN	scratch.fs	/^10 CONSTANT TEN$/;"	c
+TEST-CARDS	PokerHand.fs	/^: TEST-CARDS$/;"	d
+TEST-CATEGORY	PokerHand.fs	/^: TEST-CATEGORY$/;"	d
+TEST-CHAR>RANK	PokerHand.fs	/^: TEST-CHAR>RANK$/;"	d
+TEST-CHAR>SUIT	PokerHand.fs	/^: TEST-CHAR>SUIT$/;"	d
+TEST-DISCARDED	PokerHand.fs	/^: TEST-DISCARDED$/;"	d
+TEST-FIND-GROUP-CATEGORY	PokerHand.fs	/^: TEST-FIND-GROUP-CATEGORY$/;"	d
+TEST-FLUSH?	PokerHand.fs	/^: TEST-FLUSH?$/;"	d
+TEST-GROUPSIZE	PokerHand.fs	/^: TEST-GROUPSIZE$/;"	d
+TEST-HAND-CARDS	PokerHand.fs	/^: TEST-HAND-CARDS$/;"	d
+TEST-RANKSUIT>CARD	PokerHand.fs	/^: TEST-RANKSUIT>CARD$/;"	d
+TEST-SORTCARDS	PokerHand.fs	/^: TEST-SORTCARDS$/;"	d
+TEST-STRAIGHT?	PokerHand.fs	/^: TEST-STRAIGHT?$/;"	d
+TEST-STRING>CARD	PokerHand.fs	/^: TEST-STRING>CARD$/;"	d
+TEST-SUBSEQUENCE	PokerHand.fs	/^: TEST-SUBSEQUENCE$/;"	d
+TESTDISCARDS	scratch.fs	/^: TESTDISCARDS$/;"	d
+TESTS	PokerHand.fs	/^: TESTS$/;"	d
+TESTSORTCARDS	scratch.fs	/^: TESTSORTCARDS$/;"	d
+THREEOFAKIND	PokerHand.fs	/^3 CONSTANT  THREEOFAKIND$/;"	c
+TWOPAIR	PokerHand.fs	/^2 CONSTANT  TWOPAIR$/;"	c
+a	PokerHand.fs	/^    ." CARD can create a constant card" CR$/;"	a
+card"	PokerHand.fs	/^    ." CARD can create a constant card" CR$/;"	c
+named	PokerHand.fs	/^: CARD ( "card" -- creates a constant named <card> )$/;"	c
