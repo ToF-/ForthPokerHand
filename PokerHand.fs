@@ -69,3 +69,12 @@ CARD 1S CARD 2S CARD 3S CARD 4S CARD 5S CARD 6S CARD 7S CARD 8S CARD 9S CARD TS 
 CARD 1D CARD 2D CARD 3D CARD 4D CARD 5D CARD 6D CARD 7D CARD 8D CARD 9D CARD TD CARD JD CARD QD CARD KD CARD AD
 CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 7C CARD 8C CARD 9C CARD TC CARD JC CARD QC CARD KC CARD AC
 
+: INCREASE ( n,counter -- )
+    SWAP >R DUP @ DUP     \ counter,values,values
+    4 R@ * RSHIFT 15 AND  \ counter,values,value[n]
+    1+ 15 AND 4 R@ * LSHIFT \ counter,values,ormask
+    15 4 R> * LSHIFT -1 XOR \ counter,values,ormask,andmask
+    ROT AND OR SWAP ! ;
+
+: COUNT@ ( n,counter -- value )
+    @ SWAP 4 * RSHIFT 15 AND ;
