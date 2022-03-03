@@ -78,12 +78,10 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 7C CARD 8C CARD 9C CARD TC 
     AND -ROT 4 * LSHIFT OR ;
 
 : INCREASE ( n,addr -- )
-    OVER OVER       \ n,addr,n,addr
-    @ DUP ROT       \ n,addr,values,values,n
-    NTH-NIBBLE@ 1+  \ n,addr,values,value'
-    2SWAP >R        \ values,value',n
-    NTH-NIBBLE! R>  \ values',addr
-    ! ;
+    DUP @ ROT                \ addr,values,n
+    OVER OVER NTH-NIBBLE@    \ addr,values,n,value
+    1+ SWAP NTH-NIBBLE!      \ addr,values'
+    SWAP ! ;
 
 : COUNT@ ( n,addr -- value )
     @ SWAP NTH-NIBBLE@ ;
