@@ -44,6 +44,7 @@ VARIABLE MYCOUNTER
     ." a counter can count occurrences of numbers from 0 to 14 when they occur between 0 and 7 times" CR
     MYCOUNTER OFF
     3 MYCOUNTER INCREASE
+    3 MYCOUNTER COUNT@ 1 ?S
     3 MYCOUNTER INCREASE
     14 MYCOUNTER INCREASE
     14 MYCOUNTER INCREASE
