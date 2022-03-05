@@ -57,11 +57,13 @@
         SWAP 8 LSHIFT SWAP OR
     REPEAT ;
 
-\ deconstruct a hand into cards
+\ deconstruct a hand into cards, skipping cancelled cards (=255)
 : HAND>CARDS ( hand -- 0,c1..cn )
     0 SWAP BEGIN
         ?DUP WHILE
-        DUP 255 AND SWAP 8 RSHIFT
+        DUP 255 AND
+        DUP 255 <> IF SWAP ELSE DROP THEN
+        8 RSHIFT
     REPEAT ;
 
 CARD 1H CARD 2H CARD 3H CARD 4H CARD 5H CARD 6H CARD 7H CARD 8H CARD 9H CARD TH CARD JH CARD QH CARD KH CARD AH
@@ -85,3 +87,6 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 7C CARD 8C CARD 9C CARD TC 
 
 : COUNT@ ( n,addr -- value )
     @ SWAP NTH-NIBBLE@ ;
+
+: CANCEL-CARD ( hand,n -- hand' )
+    255 SWAP 8 * LSHIFT OR ;
