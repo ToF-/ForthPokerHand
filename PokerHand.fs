@@ -120,3 +120,14 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 7C CARD 8C CARD 9C CARD TC 
     255 OVER 8 * LSHIFT -1 XOR  \ hand,card,n,and-mask
     -ROT 8 * LSHIFT             \ hand,and-mask,or-mask
     -ROT AND OR ;
+
+VARIABLE GROUPSIZES
+: GROUP-SIZES! ( hand -- hand' )
+    DUP HAND>CARDS GROUPSIZES COUNT-GROUPS \ hand
+    DUP HAND-SIZE 0 DO                     \ hand
+        DUP I CARD@                        \ hand,card#i
+        DUP RANK GROUPSIZES COUNT@         \ hand,card#i,groupsize
+        GROUP-SIZE!                        \ hand,card#i'
+        I CARD!                            \ hand'
+    LOOP ;
+
