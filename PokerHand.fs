@@ -99,9 +99,24 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 7C CARD 8C CARD 9C CARD TC 
     REPEAT DROP ;
 
 : HAND-SIZE ( hand -- n )
-    0 SWAP BEGIN
+    0 SWAP
+    BEGIN
         ?DUP WHILE
         SWAP 1+ SWAP
         8 RSHIFT
     REPEAT ;
 
+: GROUP-SIZE ( card -- gs )
+    6 RSHIFT 1+ ;
+
+: GROUP-SIZE! ( card,gs -- card' )
+    1- 6 LSHIFT OR ;
+
+: CARD@ ( hand,n -- card )
+    0 ?DO 8 RSHIFT LOOP 255 AND ;
+
+: CARD! ( hand,card,n -- hand' )
+    SWAP 255 AND SWAP           \ hand,card,n
+    255 OVER 8 * LSHIFT -1 XOR  \ hand,card,n,and-mask
+    -ROT 8 * LSHIFT             \ hand,and-mask,or-mask
+    -ROT AND OR ;
