@@ -90,3 +90,18 @@ CARD 1C CARD 2C CARD 3C CARD 4C CARD 5C CARD 6C CARD 7C CARD 8C CARD 9C CARD TC 
 
 : CANCEL-CARD ( hand,n -- hand' )
     255 SWAP 8 * LSHIFT OR ;
+
+: COUNT-GROUPS ( 0,c1..cn,addr -- )
+    DUP OFF
+    BEGIN
+        SWAP ?DUP WHILE
+        RANK OVER INCREASE
+    REPEAT DROP ;
+
+: HAND-SIZE ( hand -- n )
+    0 SWAP BEGIN
+        ?DUP WHILE
+        SWAP 1+ SWAP
+        8 RSHIFT
+    REPEAT ;
+
