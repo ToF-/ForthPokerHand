@@ -131,3 +131,22 @@ VARIABLE GROUPSIZES
         I CARD!                            \ hand'
     LOOP ;
 
+2 BASE ! 11111100 CONSTANT CARD-COMPARE-MASK DECIMAL
+
+: COMPARE-CARDS ( card,card -- -x|0|+x )
+    SWAP CARD-COMPARE-MASK AND
+    SWAP CARD-COMPARE-MASK AND
+    - ;
+
+: SORT2CARDS ( c1,c2 -- c1,c2 sorted )
+    2DUP COMPARE-CARDS 0 < IF SWAP THEN ;
+
+: SORT3CARDS ( c1,c2,c3 -- c1,c2,c3 sorted )
+    SORT2CARDS >R SORT2CARDS R> SORT2CARDS ;
+
+: SORT4CARDS ( c1,c2,c3,c4 -- c1,c2,c3,c4 sorted )
+    SORT3CARDS >R SORT3CARDS R> SORT3CARDS ;
+
+: SORT5CARDS ( c1,c2,c3,c4,c5 -- c1,c2,c3,c4,c5 sorted )
+    SORT4CARDS >R SORT4CARDS R> SORT4CARDS ;
+
