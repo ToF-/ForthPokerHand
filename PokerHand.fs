@@ -39,7 +39,7 @@
     THEN ;
 
 : RANK ( card -- rank )
-    2 RSHIFT ;
+    2 RSHIFT 15 AND ;
 
 : SUIT ( card -- suit )
     3 AND ;
@@ -149,4 +149,9 @@ VARIABLE GROUPSIZES
 
 : SORT5CARDS ( c1,c2,c3,c4,c5 -- c1,c2,c3,c4,c5 sorted )
     SORT4CARDS >R SORT4CARDS R> SORT4CARDS ;
+
+: 5CARD-HAND ( 0,c1..c5 -- hand )
+    CARDS>HAND
+    GROUP-SIZES!
+    DUP HAND>CARDS SORT5CARDS CARDS>HAND ;
 
