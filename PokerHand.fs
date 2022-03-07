@@ -153,5 +153,13 @@ VARIABLE GROUPSIZES
 : 5CARD-HAND ( 0,c1..c5 -- hand )
     CARDS>HAND
     GROUP-SIZES!
-    DUP HAND>CARDS SORT5CARDS CARDS>HAND ;
+    HAND>CARDS SORT5CARDS CARDS>HAND ;
+
+: 5CARD-HANDS ( hand -- h1,h2,..h21 )
+    6 0 DO
+        7 I 1+ DO
+            DUP J CANCEL-CARD I CANCEL-CARD
+            SWAP
+        LOOP
+    LOOP DROP ;
 
